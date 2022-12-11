@@ -1,100 +1,125 @@
 
-// store computer total scores 
-let computerScore = 0
-// store human total scores 
-let humanScore = 0
-// const rock = 'rock'
-// const paper = 'paper'
-// const scissors = 'scissors'
+const rockBtn = document.querySelector('#rock');
+const paperBtn = document.querySelector('#paper');
+const scissorsBtn = document.querySelector('#scissors');
+const buttons = document.querySelectorAll('button')
 
-// This loop allow th game to be played up to 5 times
-for (let i = 0; i<5; i++){
-    // get inputs from the human
-    const playerSelection = getHumanChoice()
-    // get inputs from the computer
-    const computerSelection = getComputerChoice()
-    
-    // this keeps track of computer wins
-    if(game(playerSelection,computerSelection) === 'Computer Wins!'){
-        computerScore++
-    // keeps tracks of human wins
-    }else if(game(playerSelection,computerSelection) === 'You Win!'){
-        humanScore++
-    }
-    // this displays who wins the current round of the game 
-    console.log(game(playerSelection,computerSelection))
+  // variables for storing scores
+  let humanScore = 0;
+  let computerScore = 0;
 
-}
-// this is where the main logics of the game reside, it's where all conditions get checked in order to decide who wins a particular round in the game.. 
-function game(playerSelection,computerSelection){
+ //  events listeners for human inputs from the DOM
+rockBtn.addEventListener('click', playRound);
+paperBtn.addEventListener('click', playRound);
+scissorsBtn.addEventListener('click', playRound);
+
+//  the game logic
+function playRound(e){
+
+    // GAME INPUTS
+
+    // get human input for the game and play the game
+    let humanSelection = e.target.textContent.toLowerCase();
+    // console.log(humanSelection);
+
+    //  get computer input for the game
+    let computerSelection = getComputerSelection() 
+    function getComputerSelection() {
+        let computerChoice =  Math.floor( Math.random() * 3)
         
-        function playRound(){
-            if (playerSelection === 'rock' && computerSelection === 'scissors'){
-                return 'You Win!'
-            } else if (playerSelection === 'scissors' && computerSelection === 'paper'){
-                return 'You Win!'
-            } else if (playerSelection === 'paper' && computerSelection === 'rock'){
-                return 'You Win!'
-            } else if (playerSelection === 'paper' && computerSelection === 'scissors'){
-                return 'Computer Wins!'
-            } else if (playerSelection === 'scissors' && computerSelection === 'rock'){
-                return 'Computer Wins!'
-            } else if (playerSelection === 'rock' && computerSelection === 'paper'){
-                return 'Computer Wins!'
-            }else if (playerSelection === computerSelection){
-                return 'Ties!'
-            } 
-
+        let play = ''
+        switch (computerChoice) {
+            case 0: play = 'rock'
+                
+                break;
+            case 1: play = 'paper'
+                
+                break;
+            case 2: play = 'scissors'
+                
+                break;
+        
         }
-        return playRound()
+
+        return play
     }
-// This is used to get human input for the game
-function getHumanChoice(){
-    // prompt human for input and store in humanChoice var
-    let input = prompt(`What's your choice?`)
-        // convert any kind of input by human to lowe case 
-        input = input.toLowerCase()
-      
-    //check if the input provided matches one of the valid words used in the game when ever new input is inserted. If it does not match valid input ask the user to try again with valid input.   
-    while (input != 'rock' && input != 'scissors' && input != 'paper'){
-        // alert user invalid input is entered
-        alert('Invalid input, please try again!')
-        // ask the user for new inputs and convert the inputs all to lower case
-        input = prompt(`What's your choice?`)
-        input = input.toLowerCase()
-
-     }
-     return input 
-       
-        
-}
-// This is used to get computer input for the game
-function getComputerChoice() {
-    let computerChoice =  Math.floor( Math.random() * 3)
-    let play = ''
-
-    switch (computerChoice) {
-        case 0: play = 'rock'
-            
-            break;
-        case 1: play = 'paper'
-            
-            break;
-        case 2: play = 'scissors'
-            
-            break;
     
-    }
+    // The game logic
+    if (humanScore < 5 && computerScore < 5 ){
+           
+        // do this when rock button is clicked
+        if (humanSelection === 'rock' && computerSelection === 'scissors'){
+                // increment the value of humanScore 
+                ++humanScore
+                if (humanScore === 5){
+                    document.querySelector('#announcement').textContent = 'The winner is Human...'
+                }
+                // update the DOM with the score
+                document.querySelector('#humanScore').textContent = `Human: ${humanScore}`
+                // update the game status indicating who won the current round
+                document.querySelector('#win').textContent = 'Status: Human Won this round';
 
-    return play
+        } else if (humanSelection === 'rock' && computerSelection === 'paper'){
+                // increment the value of computerScore 
+                ++computerScore
+                if (computerScore === 5){
+                    document.querySelector('#announcement').textContent = 'The winner is Computer ...'
+                }
+                // update the DOM with the score
+                document.querySelector('#computerScore').textContent = `Computer: ${computerScore}`
+                // update the game status indicating who won the current round
+                document.querySelector('#win').textContent = 'Status: Computer Won this round';
+        
+        // do this when paper button is clicked
+        }else if (humanSelection === 'paper' && computerSelection === 'rock'){
+                // increment the value of humanScore 
+                ++humanScore
+                if (humanScore === 5){
+                    document.querySelector('#announcement').textContent = 'The winner is Human...'
+                }
+                // update the DOM with human score
+                document.querySelector('#humanScore').textContent = `Human: ${humanScore}`
+                 // update the game status indicating human won the current round
+               document.querySelector('#win').textContent = 'Status: Human Won this round';
+         }else if (humanSelection === 'paper' && computerSelection === 'scissors'){
+               // increment the computer Score 
+                ++computerScore
+                if (computerScore === 5){
+                    document.querySelector('#announcement').textContent = 'The winner is Computer ...'
+                }
+                // update the DOM with the score
+                document.querySelector('#computerScore').textContent = `Computer: ${computerScore}`
+                 // update the game status indicating computer won the current round
+               document.querySelector('#win').textContent = 'Status: Computer Won this round';
+               
+            // do this when scissors button is clicked
+            } else if (humanSelection === 'scissors' && computerSelection === 'paper'){
+                // increment the value of humanScore 
+                ++humanScore
+                if (humanScore === 5){
+                    document.querySelector('#announcement').textContent = 'The winner is Human...'
+                }
+                // update the DOM with human score
+                document.querySelector('#humanScore').textContent = `Human: ${humanScore}`
+                 // update the game status indicating human won the current round
+               document.querySelector('#win').textContent = 'Status: Human Won this round';
+         }else if (humanSelection === 'scissors' && computerSelection === 'rock'){
+               // increment the computer Score 
+                ++computerScore
+                if (computerScore === 5){
+                    document.querySelector('#announcement').textContent = 'The winner is Computer ...'
+                }
+                // update the DOM with the score
+                document.querySelector('#computerScore').textContent = `Computer: ${computerScore}`
+                 // update the game status indicating computer won the current round
+               document.querySelector('#win').textContent = 'Status: Computer Won this round';
+               } else if (humanSelection === computerSelection){
+                // update the game status with 'tiles'
+                document.querySelector('#win').textContent = `Status: It's Tiles`;
+            } 
+                
+    } 
+
 }
 
- // this announces winner and loser at the end of the game 
- if (computerScore > humanScore){
-    console.log(`Computer won the game with total score of ${computerScore}`)
-}else if(computerScore < humanScore){
-    console.log(`You won the game with total score of ${humanScore}`)
-}else if (humanScore === computerScore){
-    console.log(`The game is Tie! Human score: ${humanScore} and Computer score: ${computerScore}`)
-}
-
+    
